@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Modal from "../../modal/modal";
+import Modal from "../../modal/Modal";
 import BorrowForm from "./BorrowForm";
 import { toast } from 'react-toastify';
 
