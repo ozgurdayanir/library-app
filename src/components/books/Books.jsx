@@ -18,7 +18,7 @@ function Books() {
   // Fetch books
   useEffect(() => {
     axios
-      .get('http://right-zorana-mephisto-0553475f.koyeb.app/api/v1/books')
+      .get('https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/books')
       .then((response) => {
         console.log("Fetched books:", response.data);
         setBooks(response.data);
@@ -31,7 +31,7 @@ function Books() {
   // fetch categories
   useEffect(() => {
     axios
-      .get('http://right-zorana-mephisto-0553475f.koyeb.app/api/v1/categories')
+      .get('https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/categories')
       .then((response) => {
         console.log("Fetched categories:", response.data);
         setCategories(response.data);
