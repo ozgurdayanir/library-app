@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Modal from "../../modlas"
+import Modal from "../../modals"
 import CategoryForm from "./CategoryForm";
 import { toast } from 'react-toastify';
 
