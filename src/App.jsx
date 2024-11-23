@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css'
 import Main from './layouts'
 import Books from './components/books'
-import Categories from './components/categories';
+import Categories from './components/categories'
 import Publishers from './components/publisher';
 import Authors from './components/authors';
 import Borrows from './components/borrowing-book';
