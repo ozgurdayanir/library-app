@@ -1,0 +1,269 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    list-style: none;
+    font-family: 'Nunito', sans-serif;
+    text-decoration: none;
+}
+
+:root {
+    /* Colors */
+    --color-primary: #B7C29C;
+    --color-dark: #1B1B1B;
+    --color-bg: #f4f3f3;
+    --color-white: #FFFFFF;
+    --color-gray: #8e8e8e;
+    --color-light-gray: #dbdada;
+
+    /* Font sizes */
+    --font-size-xs: 12px;
+    --font-size-sm: 14px;
+    --font-size-md: 16px;
+    --font-size-lg: 18px;
+    --font-size-xl: 24px;
+    --font-size-2xl: 30px;
+    --font-size-3xl: 36px;
+    --font-size-4xl: 48px;
+    --font-size-5xl: 64px;
+
+    /* Border radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 16px;
+    --radius-full: 50%;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.12);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.16);
+}
+
+.material-symbols-outlined {
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+}
+
+
+body {
+    font-size: var(--font-size-md);
+    background-color: var(--color-bg);
+}
+
+h1 {
+    font-size: var(--font-size-4xl);
+}
+
+h2 {
+    font-size: var(--font-size-3xl);
+}
+
+h3 {
+    font-size: var(--font-size-2xl);
+    font-weight: 500;
+}
+
+p {
+    font-size: var(--font-size-md);
+    font-weight: 300;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+    display: inline-block;
+}
+
+
+#delete-btn {
+    padding: 16px 12px;
+    color: rgb(200, 35, 35);
+    font-size: var(--font-size-xs);
+    font-weight: 400;
+    border-radius: 4px;
+    background-color: var(--color-white);
+    cursor: pointer;
+    display: flex;
+    gap: 8px;
+    text-align: center;
+    align-items: center;
+    
+    &:hover {
+        outline: solid 1px rgb(200, 35, 35);
+    }
+}
+
+#delete-btn :nth-child(1) {
+    font-size: var(--font-size-md);
+}
+
+#add-btn {
+    padding: 12px 12px;
+    color: var(--color-white);
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    border-radius: 4px;
+    background-color: var(--color-dark);
+    cursor: pointer;
+    &:hover {
+        background-color: #1b1b1bbc ;
+    }
+}
+
+.btn {
+    padding: 16px 12px;
+    color: var(--color-white);
+    font-size: var(--font-size-xs);
+    font-weight: 400;
+    min-width: 80px;
+    border-radius: 4px;
+    background-color: var(--color-primary);
+    cursor: pointer;
+    display: flex;
+    gap: 8px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-primary {
+    padding: 16px 12px;
+    color: var(--color-white);
+    font-size: var(--font-size-xs);
+    font-weight: 400;
+    border: solid 1px var(--color-primary);
+    border-radius: 4px;
+    background-color: var(--color-primary);
+    cursor: pointer;
+    display: inline-flex;
+    gap: 8px;
+    text-align: center;
+    align-items: center;
+    transition: all 150ms ease-in-out;
+
+    &:hover {
+        background-color: #aab48f;
+    }
+}
+
+.btn-secondary{
+    padding: 16px 12px;
+    color: var(--color-dark);
+    font-size: var(--font-size-xs);
+    font-weight: 400;
+    border-radius: 4px;
+    background-color: var(--color-white);
+    cursor: pointer;
+    display: flex;
+    gap: 8px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    transition: all 150ms ease-in-out;
+
+    &:hover {
+        outline: solid 1px var(--color-primary);
+        color: var(--color-primary)
+    }
+}
+
+.btn-primary :nth-child(1) {
+    font-size: var(--font-size-md);
+}
+
+input {
+    width: 100%;
+    height: 40px;
+    padding: 12px 8px;
+    border: solid 1px var(--color-light-gray);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    line-height: 16px;
+    color: var(--color-dark);
+    transition: all 150ms ease-in-out;
+
+    &:hover {
+        border: solid 1px var(--color-gray);
+    }
+
+    &:focus {
+        border: solid 1px var(--color-dark);
+    }
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+}
+
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: fit-content;
+}
+
+.form-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.select-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.dropdown {
+    padding: 12px 8px;
+    border: solid 1px var(--color-light-gray);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    line-height: 16px;
+    color: var(--color-dark);
+    transition: all 150ms ease-in-out;
+    cursor: pointer;
+    appearance: none;
+}
+
+.multiple-select {
+    display: flex;
+    padding: 12px 8px;
+    border: solid 1px var(--color-light-gray);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    line-height: 16px;
+    color: var(--color-dark);
+    transition: all 150ms ease-in-out;
+    cursor: pointer;
+    appearance: none;
+}
+
+.cta-btn {
+    padding: 16px 12px;
+    color: var(--color-white);
+    font-size: var(--font-size-md);
+    font-weight: 500;
+    border-radius: 4px;
+    width: fit-content;
+    background-color: var(--color-primary);
+    cursor: pointer;
+    gap: 8px;
+    text-align: center;
+    align-items: center;
+    transition: all 150ms ease-in-out;
+
+    &:hover {
+        background-color: #aab48f;
+    }
+}
+
