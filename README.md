@@ -14,8 +14,9 @@ Welcome to the **Library App**! This is a React-based web application that allow
 
 ## 🖥️ Live Demo
 
-[Check out the live demo](#) 🚀  
-*(Add your deployed link here, e.g., Vercel, Netlify, or GitHub Pages)*
+[Check out the live demo](https://library-app-two-indol.vercel.app) 🚀
+
+![Screenshot](./public/screenshot.png)
 
 ---
 
@@ -28,3 +29,15 @@ Welcome to the **Library App**! This is a React-based web application that allow
 - **JavaScript**: For logic and interactions.
 
 ---
+
+## 📋 Future Improvements
+
+- Add responsive design for mobile and tablet devices.
+- Implement a search feature to quickly find books.
+- Integrate user authentication for personalized libraries.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
