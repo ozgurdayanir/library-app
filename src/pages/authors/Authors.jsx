@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Modal from "../../modals";
 import AuthorForm from "../authors/AuthorForm";
+import authorsService from "../../services/authorsService";
 import { toast } from 'react-toastify';
 
 function Authors() {
@@ -12,11 +12,9 @@ function Authors() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get('https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/authors')
-      .then((response) => {
-        setAuthors(response.data);
-      })
+    authorsService
+      .getAuthors()
+      .then((data) => setAuthors(data))
       .catch((error) => {
         console.error("Error fetching categories:", error);
       })
@@ -30,8 +28,8 @@ function Authors() {
   };
 
   const handleDeleteAuthor = (id) => {
-    axios
-      .delete(`https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/authors/${id}`)
+    authorsService
+      .deleteAuthor(id)
       .then(() => {
         setAuthors((prev) => prev.filter((author) => author.id !== id));
         toast.success('Author deleted successfully');
@@ -50,8 +48,12 @@ function Authors() {
   };
 
   const handleAuthorUpdated = (updatedAuthor) => {
-    setAuthors((prev) =>
-      prev.map((author) =>
+    if (!updatedAuthor || !updatedAuthor.id) {
+      console.error('Updated Author is invalid:', updatedAuthor);
+      return;
+    }
+    setAuthors((prevAuthors) =>
+      prevAuthors.map((author) =>
         author.id === updatedAuthor.id ? updatedAuthor : author
       )
     );

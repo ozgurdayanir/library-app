@@ -3,12 +3,12 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css'
 import Main from './layouts'
-import Books from './components/books'
-import Categories from './components/categories'
-import Publishers from './components/publisher';
-import Authors from './components/authors';
-import Borrows from './components/borrowing-book';
-import Home from './components/home';
+import Books from './pages/books'
+import Categories from './pages/categories'
+import Publishers from './pages/publisher';
+import Authors from './pages/authors';
+import Borrows from './pages/borrowing-book';
+import Home from './pages/home';
 import Header from './components/header';
 
 

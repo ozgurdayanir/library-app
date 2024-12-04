@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Modal from "../../modals";
+import borrowsService from "../../services/borrowsService";
 import BorrowForm from "./BorrowForm";
+import booksService from "../../services/booksService";
 import { toast } from 'react-toastify';
 
 function Borrows() {
@@ -14,29 +15,25 @@ function Borrows() {
 
   // Fetch borrows
   useEffect(() => {
-    axios
-      .get('https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/borrows')
-      .then((response) => {
-        setBorrows(response.data);
-      })
+    borrowsService
+      .getBorrows()
+      .then((data) => setBorrows(data))
       .catch((error) => {
         console.error("Error fetching borrows:", error);
+        toast.error("Error fetching borrows");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
   // Fetch books
   useEffect(() => {
-    axios
-      .get('https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/books')
-      .then((response) => {
-        console.log("Fetched books:", response.data);
-        setBooks(response.data);
-      })
+    booksService
+      .getBooks()
+      .then((data) => setBooks(data))
       .catch((error) => {
         console.error("Error fetching books:", error);
-      })
-      .finally(() => {
-        setLoading(false); // Set loading to false
       });
   }, []);
 
@@ -45,14 +42,15 @@ function Borrows() {
   };
 
   const handleDeleteBorrow = (id) => {
-    axios
-      .delete(`https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/borrows/${id}`)
+    borrowsService
+      .deleteBorrow(id)
       .then(() => {
         setBorrows((prev) => prev.filter((borrow) => borrow.id !== id));
+        toast.success("Borrow deleted successfully");
       })
       .catch((error) => {
         console.error("Error deleting borrow:", error);
-        toast.error('Error deleting borrow');
+        toast.error("Error deleting borrow");
       });
   };
 
@@ -64,13 +62,17 @@ function Borrows() {
   };
 
   const handleBorrowUpdated = (updatedBorrow) => {
-    setBorrows((prev) =>
-      prev.map((borrow) =>
+    if (!updatedBorrow || !updatedBorrow.id) {
+      console.error('Updated borrow is invalid:', updatedBorrow);
+      return;
+    }
+    setBorrows((prevBorrows) =>
+      prevBorrows.map((borrow) =>
         borrow.id === updatedBorrow.id ? updatedBorrow : borrow
       )
     );
   };
-  const showSuccessToast = (message) => {
+  const  showSuccessToast = (message) => {
     toast.success(message);
   };
 

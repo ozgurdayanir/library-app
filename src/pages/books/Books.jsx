@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Modal from "../../modals"
 import BookForm from "./BookForm";
+import booksService from "../../services/booksService";
+import categoriesService from "../../services/categoriesService";
+import publishersService from "../../services/publishersService";
+import authorsService from "../../services/authorsService";
 import { toast } from 'react-toastify';
 
 
@@ -17,12 +20,9 @@ function Books() {
 
   // Fetch books
   useEffect(() => {
-    axios
-      .get('https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/books')
-      .then((response) => {
-        console.log("Fetched books:", response.data);
-        setBooks(response.data);
-      })
+    booksService
+      .getBooks()
+      .then((data) => setBooks(data))
       .catch((error) => {
         console.error("Error fetching books:", error);
       });
@@ -30,8 +30,8 @@ function Books() {
 
   // fetch categories
   useEffect(() => {
-    axios
-      .get('https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/categories')
+    categoriesService
+      .getCategories()
       .then((response) => {
         console.log("Fetched categories:", response.data);
         setCategories(response.data);
@@ -43,30 +43,27 @@ function Books() {
 
   // fetch publishers
   useEffect(() => {
-    axios
-      .get('https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/publishers')
-      .then((response) => {
-        console.log("Fetched publishers:", response.data);
-        setPublishers(response.data);
-      })
+    publishersService
+      .getPublishers()
+      .then((data) => setPublishers(data))
       .catch((error) => {
         console.error("Error fetching publishers:", error);
       })
       .finally(() => {
         setLoading(false); // Set loading to false
-      });;
+      });
   }, []);
 
   // fetch authors
   useEffect(() => {
-    axios
-      .get('https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/authors')
-      .then((response) => {
-        console.log("Fetched authors:", response.data);
-        setAuthors(response.data);
-      })
+    authorsService
+      .getAuthors()
+      .then((data) => setAuthors(data))
       .catch((error) => {
-        console.error("Error fetching authors:", error);
+        console.error("Error fetching categories:", error);
+      })
+      .finally(() => {
+        setLoading(false); // Set loading to false
       });
   }, []);
 
@@ -75,8 +72,8 @@ function Books() {
   };
 
   const handleDeleteBook = (id) => {
-    axios
-      .delete(`https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/books/${id}`)
+    booksService
+      .deleteBook(id)
       .then(() => {
         setBooks((prev) => prev.filter((book) => book.id !== id));
         toast.success('Book deleted successfully');

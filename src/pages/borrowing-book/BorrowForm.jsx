@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import borrowsService from '../../services/borrowsService';
 import { toast } from 'react-toastify';
 
 const BorrowForm = ({
@@ -37,11 +37,11 @@ const BorrowForm = ({
         returnDate: selectedBorrow.returnDate || "",
         bookForBorrowingRequest: selectedBorrow.book
           ? {
-              id: selectedBorrow.book.id || 0,
-              name: selectedBorrow.book.name || "",
-              publicationYear: selectedBorrow.book.publicationYear || 0,
-              stock: selectedBorrow.book.stock || 0,
-            }
+            id: selectedBorrow.book.id || 0,
+            name: selectedBorrow.book.name || "",
+            publicationYear: selectedBorrow.book.publicationYear || 0,
+            stock: selectedBorrow.book.stock || 0,
+          }
           : { id: 0, name: "", publicationYear: 0, stock: 0 },
       });
     } else {
@@ -55,7 +55,7 @@ const BorrowForm = ({
     }
     setError("");
   }, [isEditing, borrow]);
-  
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -109,9 +109,13 @@ const BorrowForm = ({
     };
 
     if (isEditing) {
-      axios.put(`https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/borrows/${selectedBorrow.id}`, data)
+      borrowsService
+        .updateBorrow(selectedBorrow.id, data)
         .then((response) => {
-          console.log('Borrow updated:', response.data);
+          console.log('Full response from updateBorrow:', response); // Log the full response
+          if (!response.data) {
+            throw new Error('Response data is undefined.');
+          }
           onBorrowUpdated(response.data);
           showSuccessToast('Borrow updated successfully');
           onClose();
@@ -124,8 +128,10 @@ const BorrowForm = ({
         .finally(() => {
           setLoading(false); // Set loading to false
         });
+
     } else {
-      axios.post('https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/borrows', data)
+      borrowsService
+        .createBorrow(data)
         .then((response) => {
           console.log('Borrow added:', response.data);
           onBorrowAdded(response.data);

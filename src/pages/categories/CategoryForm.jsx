@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import categoriesService from "../../services/categoriesService";
 import { toast } from 'react-toastify';
 
 function CategoryForm({ onClose, onCategoryAdded, onCategoryUpdated, isEditing, category, showSuccessToast }) {
@@ -9,7 +9,7 @@ function CategoryForm({ onClose, onCategoryAdded, onCategoryUpdated, isEditing, 
         description: "string"
     });
     const [error, setError] = useState("");
-    
+
 
     // Seçili yazarı form alanlarına yükle
     useEffect(() => {
@@ -38,46 +38,28 @@ function CategoryForm({ onClose, onCategoryAdded, onCategoryUpdated, isEditing, 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        /*if (
-            isEditing &&
-            formData.name === publisher.name &&
-            formData.establishmentYear === publisher.establishmentYear &&
-            formData.address !== publisher.address
-        ) {
-            setError("You can not just change the address");
-            return;
-        }*/
-
         if (isEditing) {
             // Update category
-            try {
-                const response = await axios.put(
-                    `https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/categories/${category.id}`,
-                    formData
-                );
-                onCategoryUpdated(response.data);
-                showSuccessToast("Category updated successfully");
-                onClose();
-            } catch (error) {
-                console.error("Error updating category:", error);
-                setError("Error updating category");
-            }
+            categoriesService
+                .updateCategory(category.id, formData)
+                .then((response) => {
+                    onCategoryUpdated(response.data);
+                    showSuccessToast("Category updated successfully");
+                    onClose();
+                })
         } else {
             // Add new category
-            try {
-                const response = await axios.post(
-                    "https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/categories",
-                    formData
-                );
-                onCategoryAdded(response.data);
-                showSuccessToast("Category added successfully");
-                onClose();
-            } catch (error) {
-                console.error("Error adding category:", error);
-                setError("Error adding category");
-                toast.error("Error adding category");
-            }
+            categoriesService
+                .createCategory(formData)
+                .then((response) => {
+                    onCategoryAdded(response.data);
+                    showSuccessToast("Category added successfully");
+                    onClose();
+                })
+                .catch((error) => {
+                    console.error("Error adding category:", error);
+                    toast.error("Error adding category");
+            })
         }
     };
 
@@ -94,14 +76,14 @@ function CategoryForm({ onClose, onCategoryAdded, onCategoryUpdated, isEditing, 
                     required
                 />
             </div>
-                <label>Description:</label>
-                <input
-                    type="string"
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                    required
-                />
+            <label>Description:</label>
+            <input
+                type="string"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                required
+            />
             <div className="form-actions">
                 <button className="btn btn-secondary" type="button" onClick={onClose}>
                     Close

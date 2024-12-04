@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Modal from "../../modals";
 import PublisherForm from "./PublisherForm";
+import publishersService from "../../services/publishersService";
 import { toast } from 'react-toastify';
 
 function Publishers() {
@@ -16,11 +16,9 @@ function Publishers() {
   }
 
   useEffect(() => {
-    axios
-      .get('https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/publishers')
-      .then((response) => {
-        setPublishers(response.data);
-      })
+    publishersService
+      .getPublishers()
+      .then((data) => setPublishers(data))
       .catch((error) => {
         console.error("Error fetching publishers:", error);
       })
@@ -34,8 +32,8 @@ function Publishers() {
   };
 
   const handleDeletePublisher = (id) => {
-    axios
-      .delete(`https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/publishers/${id}`)
+    publishersService
+      .deletePublisher(id)
       .then(() => {
         setPublishers((prev) => prev.filter((publisher) => publisher.id !== id));
         showSuccessToast("Publisher deleted successfully");

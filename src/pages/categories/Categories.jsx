@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Modal from "../../modals"
 import CategoryForm from "./CategoryForm";
+import categoriesService from "../../services/categoriesService";
 import { toast } from 'react-toastify';
 
 
@@ -16,9 +16,10 @@ function Categories() {
   };
 
   useEffect(() => {
-    axios
-      .get('https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/categories')
+    categoriesService
+      .getCategories()
       .then((response) => {
+        console.log("Fetched categories:", response.data);
         setCategories(response.data);
       })
       .catch((error) => {
@@ -34,8 +35,8 @@ function Categories() {
   };
 
   const handleDeleteCategory = (id) => {
-    axios
-      .delete(`https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/categories/${id}`)
+    categoriesService
+      .deleteCategory(id)
       .then(() => {
         setCategories((prev) => prev.filter((category) => category.id !== id));
         showSuccessToast("Category deleted successfully");

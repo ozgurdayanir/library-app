@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import authorsService from "../../services/authorsService";
 import { toast } from "react-toastify";
 
 function AuthorForm({ onClose, onAuthorAdded, onAuthorUpdated, isEditing, author, showSuccessToast }) {
@@ -9,7 +9,7 @@ function AuthorForm({ onClose, onAuthorAdded, onAuthorUpdated, isEditing, author
         country: "",
     });
 
-    // Seçili yazarı form alanlarına yükle
+    // set selected author in the form
     useEffect(() => {
         if (isEditing && author) {
             setFormData({
@@ -36,35 +36,34 @@ function AuthorForm({ onClose, onAuthorAdded, onAuthorUpdated, isEditing, author
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (isEditing) {
-            // Update author
-            try {
-                const response = await axios.put(
-                    `https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/authors/${author.id}`,
-                    formData
-                );
-                onAuthorUpdated(response.data);
-                showSuccessToast("Author updated successfully");
-                onClose();
-            } catch (error) {
-                console.error("Error updating author:", error);
-                toast.error("Error updating author");
-            }
+          // Update author
+          authorsService
+            .updateAuthor(author.id, formData)
+            .then((response) => {
+              console.log('Full response:', response);
+              onAuthorUpdated(response.data); // send updated data
+              showSuccessToast('Author updated successfully');
+              onClose();
+            })
+            .catch((error) => {
+              console.error('Error updating author:', error);
+              toast.error('Error updating author');
+            });
         } else {
-            // Ekleme işlemi
-            try {
-                const response = await axios.post(
-                    "https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/authors",
-                    formData
-                );
-                onAuthorAdded(response.data);
-                showSuccessToast("Author added successfully");
-                onClose();
-            } catch (error) {
-                console.error("Error adding author:", error);
-                toast.error("Error adding author");
-            }
+          // Add author
+          authorsService
+            .createAuthor(formData)
+            .then((response) => {
+              onAuthorAdded(response.data); // send new data
+              showSuccessToast('Author added successfully');
+              onClose();
+            })
+            .catch((error) => {
+              console.error('Error adding author:', error);
+              toast.error('Error adding author');
+            });
         }
-    };
+      };
 
     return (
         <form className="edit-form" onSubmit={handleSubmit}>

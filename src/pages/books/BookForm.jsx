@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { toast } from 'react-toastify';
+import booksService from "../../services/booksService";
 
 function BookForm({
     onClose,
@@ -140,34 +140,26 @@ function BookForm({
     
         if (isEditing) {
             // Update book
-            try {
-                const response = await axios.put(
-                    `https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/books/${book.id}`,
-                    { ...formData, stock: stockValue } // Updated stock
-                );
-                onBookUpdated(response.data);
-                showSuccessToast("Book updated successfully");
-                onClose();
-            } catch (error) {
-                console.error("Error updating book:", error);
-                setError("Error updating book");
-                toast.error("Error updating book");
-            }
+            booksService
+                .updateBook(formData.id, formData)
+                .then((response) => {
+                    onBookUpdated(response.data);
+                    showSuccessToast("Book updated successfully");
+                    onClose();
+                })
         } else {
             // Add new book
-            try {
-                const response = await axios.post(
-                    "https://right-zorana-mephisto-0553475f.koyeb.app/api/v1/books",
-                    { ...formData, stock: stockValue } // Güncellenmiş stok
-                );
-                onBookAdded(response.data);
-                showSuccessToast("Book added successfully");
-                onClose();
-            } catch (error) {
-                console.error("Error adding book:", error);
-                setError("Error adding book");
-                toast.error("Error adding book");
-            }
+            booksService
+                .createBook(formData)
+                .then((response) => {
+                    onBookAdded(response.data);
+                    showSuccessToast("Book added successfully");
+                    onClose();
+                })
+                .catch((error) => {
+                    console.error("Error adding book:", error);
+                    toast.error("Error adding book");
+                });
         }
     };
     
